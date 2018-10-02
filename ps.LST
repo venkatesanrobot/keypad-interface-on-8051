@@ -1,0 +1,76 @@
+C51 COMPILER V9.53.0.0   PS                                                                09/22/2018 00:39:27 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE PS
+OBJECT MODULE PLACED IN ps.OBJ
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ps.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          // File Name: lcd interface on 8051
+   2          // Author: R.venkatesan
+   3          // lcd 16X2 8bit method 
+   4           // lcd pin connection port0 -data pin (D0-D7)
+   5           // control pin lcd conection  RS=P2^7, R/W=P2^6, E=P2^5
+   6           
+   7          
+   8          # include <reg51.h>
+   9          # include <stdio.h>
+  10          # include "lcd.h"  // lcd library 
+  11          /* if want change the lcd pin connection open lcd file libary change the pin as per your aspect 
+  12           And also remain you change busy flag= bf(used name in lcdlibrary ) also for inlcd pin data  lcd file liba
+             -ry  */
+  13           # include "keypad.h" //keypad library pin connection Port1
+  14           
+  15           unsigned char password_check();
+  16           char password[6]="ABC123"; // password using in this project
+  17           void main()
+  18           {
+  19   1        port(); // pulldown the all pin in micro controller
+  20   1        lcd_initial(); // lcd basic initialization cammand line 
+  21   1         while(1)
+  22   1         {
+  23   2           lcd_com(0x01);  // lcd cammand dispaly frist line
+  24   2           
+  25   2           lcd_string("keypad scan... "); 
+  26   2           
+  27   2           lcd_com (0xc0);  // lcd cammand dispaly second line
+  28   2           
+  29   2          password_check();
+  30   2      //     lcd_string("design by RV ");  
+  31   2           
+  32   2            delay(100); // delay for seen the lcd lines display
+  33   2         }
+  34   1           
+  35   1       }
+  36             
+  37           unsigned char password_check() // checking password
+  38           {
+  39   1          ps_check();
+  40   1              if(strncmp(ps1,password,6)==0)
+  41   1              {
+  42   2              lcd_com(0x01);
+  43   2             lcd_string("correct password");
+  44   2                delay(100);
+  45   2              }
+  46   1              
+  47   1            }
+*** WARNING C173 IN LINE 47 OF ps.c: missing return-expression
+*** WARNING C291 IN LINE 45 OF ps.c: not every exit path returns a value
+*** WARNING C290 IN LINE 47 OF ps.c: missing return value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    393    ----
+C51 COMPILER V9.53.0.0   PS                                                                09/22/2018 00:39:27 PAGE 2   
+
+   CONSTANT SIZE    =     33    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     12       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  3 WARNING(S),  0 ERROR(S)
